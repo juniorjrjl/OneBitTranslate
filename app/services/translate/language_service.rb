@@ -10,7 +10,7 @@ module TranslateModule
         end
 
         def call
-            response = RestClient.post @url, {}
+            response = JSON.parse(RestClient.post @url, {})
             raise ApiError::ApiComunicationError.new('Error when try comunicate with API.') if response.body.key?(:code)
             langs = response.body[:langs].map {| value, key | "#{value} = #{key}"}.join(',')
             languages = translate_names(langs)
