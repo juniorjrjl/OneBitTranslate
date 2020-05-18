@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+
+    translate-service:
+        build: .
+        ports: 
+            - '9292:9292'
+        environment: 
+             - API_KEY=INSERT_API_KEY
+             - API_URL=https://translate.yandex.net/api/v1.5/tr.json/
+        volumes: 
+            - '.:/onebittranslate'
+        environment: 
+            - LANG=C.UTF-8
