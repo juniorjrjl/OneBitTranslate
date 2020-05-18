@@ -11,6 +11,7 @@ module TranslateModule
             text_language = params[:text_language]
             language_to_translate = params[:language_to_translate]
             @url = "#{ENV['API_URL']}translate?key=#{ENV['API_KEY']}&text=#{@text}&lang=#{text_language}-#{language_to_translate}"
+            @format_text = params.has_value?[:format_text]
         end
 
         def call
@@ -19,6 +20,9 @@ module TranslateModule
             status_code = response['code']
             case status_code
             when ApiCode::TRANSLATED
+                if @format_text
+                    response['text'][0]
+                end
                 "A tradução de #{@text} é #{response['text'][0]}"
             when ApiCode::INVALID_API_KEY, ApiCode::BLOCKED_API_KEY, ApiCode::EXCEEDED_DAILY_LIMIT
                 raise ApiError::ApiComunicationError.new('Error when try comunicate with API.')
