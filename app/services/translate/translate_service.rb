@@ -25,6 +25,7 @@ module TranslateModule
             when ApiCode::TRANSLATE_OPTION_NOT_SUPPORTED
                 raise ApiError::ApiLanguageNotSupportedError.new('The sended language is not supported.')
             else
+                p status_code
                 raise ApiError::ApiCustomError.new("Unknow Error")
             end
         end
