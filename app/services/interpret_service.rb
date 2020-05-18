@@ -1,4 +1,4 @@
-class ClassName
+class InterpretService
 
     def self.call action, params
         case test
