@@ -16,10 +16,10 @@ module TranslateModule
         def call
             raise ApiError::ApiTextMaxSizeError.new("A text #{@text} exceed a 10.000 characters.") if @text.length > 10000
             response = RestClient.post @url, {}
-            status_code = response.body[:code]
+            status_code = response[:code]
             case status_code
             when ApiCode::TRANSLATED
-                "A tradução de #{@text} é #{response.body[:text][0]}"
+                "A tradução de #{@text} é #{response[:text][0]}"
             when ApiCode::INVALID_API_KEY, ApiCode::BLOCKED_API_KEY, ApiCode::EXCEEDED_DAILY_LIMIT
                 raise ApiError::ApiComunicationError.new('Error when try comunicate with API.')
             when ApiCode::TRANSLATE_OPTION_NOT_SUPPORTED
