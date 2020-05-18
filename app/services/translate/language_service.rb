@@ -6,13 +6,12 @@ module TranslateModule
     class LanguageAvailable
 
         def initialize
-            @url = "#{ENV['API_URL']}getLangs?key=#{ENV['API_KEY']}&ui-en"
+            @url = "#{ENV['API_URL']}getLangs?key=#{ENV['API_KEY']}&ui=en"
         end
 
         def call
             response = JSON.parse(RestClient.post @url, {})
             raise ApiError::ApiComunicationError.new('Error when try comunicate with API.') if response.has_value?(:code)
-            p response
             langs = response[:langs].map {| value, key | "#{value} = #{key}"}.join(',')
             languages = translate_names(langs)
             message = "Esses são os idiomas que eu conheço: \n\n"
