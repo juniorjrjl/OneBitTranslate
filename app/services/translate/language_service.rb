@@ -19,6 +19,7 @@ module TranslateModule
             languages.each do | t |
                message += " - #{t}\n" 
             end
+            message
         end
 
         private
