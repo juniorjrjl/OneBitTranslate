@@ -6,7 +6,7 @@ Dir["./app/services/**/*.rb"].each {|f| require f}
 
 class App < Sinatra::Base
 
-    post '/webhock' do
+    post '/webhook' do
         request.body.rewind
         if result["contexts"].present?
             response = InterpretService.call(result["action"], result["context"][0]["parameters"])
