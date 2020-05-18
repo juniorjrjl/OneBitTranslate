@@ -26,10 +26,10 @@ module TranslateModule
 
         def translate_names(langs)
             translated_langs = TranslateModule::TranslateService.new({
-                text: langs, 
-                text_language: 'en', 
-                language_to_translate: 'pt',
-                only_translate: true
+                'text': langs, 
+                'text_language': 'en', 
+                'language_to_translate': 'pt',
+                'only_translate': true
                 }).call()
             translated_langs.split(',')
         end

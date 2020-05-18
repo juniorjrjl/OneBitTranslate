@@ -7,7 +7,6 @@ module TranslateModule
     class TranslateService
 
         def initialize(params)
-            p params
             @text = params['text']
             text_language = params['text_language']
             language_to_translate = params['language_to_translate']
