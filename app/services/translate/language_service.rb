@@ -10,9 +10,9 @@ module TranslateModule
         end
 
         def call
-            response = JSON.parse(RestClient.post @url, {}.to_json, {'Accept' => '*/*', 'Content-Type' => 'application/x-www-form-urlencoded'})
+            response = JSON.parse(RestClient.post @url, {}, {'Accept' => '*/*', 'Content-Type' => 'application/x-www-form-urlencoded'})
             raise ApiError::ApiComunicationError.new('Error when try comunicate with API.') if response.has_value?(:code)
-            p response[:langs]
+            p response
             langs = response[:langs].map {| value, key | "#{value} = #{key}"}.join(',')
             languages = translate_names(langs)
             message = "Esses são os idiomas que eu conheço: \n\n"
