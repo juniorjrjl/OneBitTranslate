@@ -1,7 +1,7 @@
 class InterpretService
 
     def self.call action, params
-        case test
+        case action
         when 'get_languages'
             TranslateModule::LanguageAvailable.new().call()
         when 'translate'
