@@ -15,7 +15,7 @@ module TranslateModule
 
         def call
             raise ApiError::ApiTextMaxSizeError.new("A text #{@text} exceed a 10.000 characters.") if @text.length > 10000
-            response = RestClient.post @url
+            response = RestClient.post @url, {}
             status_code = response.body[:code]
             case status_code
             when ApiCode::TRANSLATED
