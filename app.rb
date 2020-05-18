@@ -1,7 +1,6 @@
 require 'json'
 require 'sinatra'
 
-Dir["./app/models/*.rb"].each {|f| require f}
 Dir["./app/services/**/*.rb"].each {|f| require f}
 
 class App < Sinatra::Base
@@ -10,7 +9,7 @@ class App < Sinatra::Base
         request.body.rewind
         result = JSON.parse(request.body.read)["queryResult"]
         p result
-        if result["contexts"].present?
+        if result.has_value?("contexts")
             response = InterpretService.call(result["action"], result["context"][0]["parameters"])
         else
             response = InterpretService.call(result["action"], result["parameters"])
