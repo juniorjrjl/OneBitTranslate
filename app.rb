@@ -8,6 +8,7 @@ class App < Sinatra::Base
 
     post '/webhook' do
         request.body.rewind
+        result = JSON.parse(request.body.read)["queryResult"]
         if result["contexts"].present?
             response = InterpretService.call(result["action"], result["context"][0]["parameters"])
         else
