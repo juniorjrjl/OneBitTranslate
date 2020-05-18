@@ -20,13 +20,12 @@ describe TranslateModule::LanguageAvailable do
                     }
                 }
             end
-
             let(:translated_lang_1){ FFaker::Lorem.characters(character_count = 2)}
             let(:translated_lang_2){ FFaker::Lorem.characters(character_count = 2)}
             let(:translated_lang_3){ FFaker::Lorem.characters(character_count = 2)}
 
             before do
-                allow(RestClient).to receive(:post) { OpenStruct.new(api_return_langs).to_h }
+                allow(RestClient).to receive(:post) { api_return_langs.to_json }
                 allow(TranslateModule::TranslateService).to receive(:new){
                     -> {available_languages}
                 }
@@ -53,7 +52,7 @@ describe TranslateModule::LanguageAvailable do
                 end
 
                 before do
-                    allow(RestClient).to receive(:post) { OpenStruct.new(api_return).to_h }
+                    allow(RestClient).to receive(:post) { api_return.to_json }
                 end
 
                 it "raise a ApiComunicationError" do

@@ -2,16 +2,21 @@ require 'json'
 require 'sinatra'
 
 Dir["./app/services/**/*.rb"].each {|f| require f}
+Dir["./app/errors/**/*.rb"].each {|f| require f}
 
 class App < Sinatra::Base
 
     post '/webhook' do
         request.body.rewind
         result = JSON.parse(request.body.read)["queryResult"]
-        if result.has_value?("contexts")
-            response = InterpretService.call(result["action"], result["context"][0]["parameters"])
-        else
-            response = InterpretService.call(result["action"], result["parameters"])
+        begin
+            if result.has_value?("contexts")
+                response = InterpretService.call(result["action"], result["context"][0]["parameters"])
+            else
+                response = InterpretService.call(result["action"], result["parameters"])
+            end
+        rescue ApiCustomError e
+            response = e.message
         end
 
         content_type :json, charset: 'utf-8'

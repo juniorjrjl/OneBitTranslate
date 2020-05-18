@@ -21,22 +21,44 @@ describe TranslateModule::TranslateService do
                     ]
                 }
             end
-            
-            before do
-                allow(RestClient).to receive(:post) {OpenStruct.new(api_return).to_h}
-                @response = TranslateModule::TranslateService.new({
-                            text: text, 
-                            text_language: text_language, 
-                            language_to_translate: language_to_translate}).call()
+        
+            context "Send response" do
+               
+                before do
+                    allow(RestClient).to receive(:post) {api_return.to_json}
+                    @response = TranslateModule::TranslateService.new({
+                                'text' => text, 
+                                'text_language'=> text_language, 
+                                'language_to_translate' => language_to_translate}).call()
+                end
+
+                it "will receive a translated text" do
+                    expect(@response).to include(translated_text)
+                end
+                
+                it "will receive a original text" do
+                    expect(@response).to include(text)
+                end
+                
             end
 
-            it "will receive a translated text" do
-                expect(@response).to include(translated_text)
+            context "Only translated text" do
+
+                before do
+                    allow(RestClient).to receive(:post) {api_return.to_json}
+                    @response = TranslateModule::TranslateService.new({
+                                'text' => text, 
+                                'text_language'=> text_language, 
+                                'language_to_translate' => language_to_translate,
+                                'only_translate' => true}).call()
+                end
+
+                it "will receive a translated text" do
+                    expect(@response).to eq(translated_text)
+                end
+
             end
-            
-            it "will receive a translated text" do
-                expect(@response).to include(text)
-            end
+
 
         end
 
@@ -52,16 +74,16 @@ describe TranslateModule::TranslateService do
                 end
 
                 before do
-                    allow(RestClient).to receive(:post) { OpenStruct.new(api_return).to_h }
+                    allow(RestClient).to receive(:post) { api_return.to_json }
                 end
 
                 it "raise a ApiComunicationError" do
                     error_message = 'Error when try comunicate with API.'
                     expect{ 
                         TranslateModule::TranslateService.new({
-                            text: text, 
-                            text_language: text_language, 
-                            language_to_translate: language_to_translate}).call()
+                            'text' => text, 
+                            'text_language' => text_language, 
+                            'language_to_translate' => language_to_translate}).call()
                     }.to raise_error(ApiError::ApiComunicationError, error_message)
                 end
 
@@ -78,16 +100,16 @@ describe TranslateModule::TranslateService do
                 end
 
                 before do
-                    allow(RestClient).to receive(:post) {OpenStruct.new(api_return).to_h}
+                    allow(RestClient).to receive(:post) {api_return.to_json}
                 end
 
                 it "raise a ApiTextMaxSizeError" do
                     error_message = "A text #{invalid_text} exceed a 10.000 characters."
                     expect{ 
                         TranslateModule::TranslateService.new({
-                            text: invalid_text, 
-                            text_language: text_language, 
-                            language_to_translate: language_to_translate}).call() 
+                            'text' => invalid_text, 
+                            'text_language' => text_language, 
+                            'language_to_translate' => language_to_translate}).call() 
                     }.to raise_error(ApiError::ApiTextMaxSizeError, error_message)
                 end
 
@@ -103,16 +125,16 @@ describe TranslateModule::TranslateService do
                 end
 
                 before do
-                    allow(RestClient).to receive(:post) {OpenStruct.new(api_return).to_h}
+                    allow(RestClient).to receive(:post) {api_return.to_json}
                 end
 
                 it "raise a ApiLanguageNotSupportedError" do
                     error_message = 'The sended language is not supported.'
                     expect{ 
                         TranslateModule::TranslateService.new({
-                            text: text, 
-                            text_language: text_language, 
-                            language_to_translate: language_to_translate}).call()
+                            'text' => text, 
+                            'text_language' => text_language, 
+                            'language_to_translate' => language_to_translate}).call()
                     }.to raise_error(ApiError::ApiLanguageNotSupportedError, error_message)
                 end
 
