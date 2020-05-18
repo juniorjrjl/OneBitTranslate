@@ -8,9 +8,9 @@ module TranslateModule
 
         def initialize(params)
             p params
-            @text = params[:text]
-            text_language = params[:text_language]
-            language_to_translate = params[:language_to_translate]
+            @text = params['text']
+            text_language = params['text_language']
+            language_to_translate = params['language_to_translate']
             @url = "#{ENV['API_URL']}translate?key=#{ENV['API_KEY']}&text=#{@text}&lang=#{text_language}-#{language_to_translate}"
             @only_translate = params[:only_translate]
         end
