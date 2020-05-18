@@ -29,7 +29,7 @@ module TranslateModule
                 text: langs, 
                 text_language: 'en', 
                 language_to_translate: 'pt',
-                format_text: true
+                only_translate: true
                 }).call()
             translated_langs.split(',')
         end
