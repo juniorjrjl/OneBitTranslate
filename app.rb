@@ -15,7 +15,7 @@ class App < Sinatra::Base
             else
                 response = InterpretService.call(result["action"], result["parameters"])
             end
-        rescue ApiCustomError => e
+        rescue ApiError::ApiCustomError => e
             response = e.message
         end
 
