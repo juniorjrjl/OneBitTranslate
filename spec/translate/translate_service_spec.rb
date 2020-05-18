@@ -23,7 +23,7 @@ describe TranslateModule::TranslateService do
             end
             
             before do
-                allow(RestClient).to receive(:post) {OpenStruct.new(body: api_return)}
+                allow(RestClient).to receive(:post) {OpenStruct.new(api_return).to_h}
                 @response = TranslateModule::TranslateService.new({
                             text: text, 
                             text_language: text_language, 
@@ -52,7 +52,7 @@ describe TranslateModule::TranslateService do
                 end
 
                 before do
-                    allow(RestClient).to receive(:post) { OpenStruct.new(body: api_return) }
+                    allow(RestClient).to receive(:post) { OpenStruct.new(api_return).to_h }
                 end
 
                 it "raise a ApiComunicationError" do
@@ -78,7 +78,7 @@ describe TranslateModule::TranslateService do
                 end
 
                 before do
-                    allow(RestClient).to receive(:post) {OpenStruct.new(body: api_return)}
+                    allow(RestClient).to receive(:post) {OpenStruct.new(api_return).to_h}
                 end
 
                 it "raise a ApiTextMaxSizeError" do
@@ -103,7 +103,7 @@ describe TranslateModule::TranslateService do
                 end
 
                 before do
-                    allow(RestClient).to receive(:post) {OpenStruct.new(body: api_return)}
+                    allow(RestClient).to receive(:post) {OpenStruct.new(api_return).to_h}
                 end
 
                 it "raise a ApiLanguageNotSupportedError" do
