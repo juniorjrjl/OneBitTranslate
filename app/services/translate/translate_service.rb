@@ -7,7 +7,7 @@ module TranslateModule
     class TranslateService
 
         def initialize(params)
-            @text = params['text']
+            @text = URI.encode_www_form_component(params['text'])
             text_language = params['text_language']
             language_to_translate = params['language_to_translate']
             @url = "#{ENV['API_URL']}translate?key=#{ENV['API_KEY']}&text=#{@text}&lang=#{text_language}-#{language_to_translate}"
